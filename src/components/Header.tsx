@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuIcon, XIcon, PlusIcon } from 'lucide-react';
+import { MenuIcon, XIcon, CalendarPlusIcon } from 'lucide-react';
 import { Button } from './ui/Button';
 export function Header({
   isAuthenticated,
@@ -17,7 +17,8 @@ export function Header({
           <div className="flex items-center">
             <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex items-center">
               <div className="text-2xl font-bold mr-1.5 leading-none">
-                <span className="text-blue-600">Event</span><span className="text-gray-900">Compli</span>
+                <span className="text-blue-600">Event</span>
+                <span className="text-gray-900">Compli</span>
               </div>
               <img src="/CompliBotIcon.svg" alt="CompliBot" className="h-6 w-6" />
             </Link>
@@ -53,7 +54,7 @@ export function Header({
                 </button>
                 <Link to="/create-event">
                   <Button variant="primary" className="flex items-center">
-                    <PlusIcon className="h-4 w-4 mr-2" />
+                    <CalendarPlusIcon className="h-4 w-4 mr-2" />
                     Create Event
                   </Button>
                 </Link>
@@ -100,7 +101,7 @@ export function Header({
               {isAuthenticated ? <>
                   <Link to="/create-event" onClick={() => setMobileMenuOpen(false)}>
                     <Button variant="primary" className="w-full flex items-center justify-center">
-                      <PlusIcon className="h-4 w-4 mr-2" />
+                      <CalendarPlusIcon className="h-4 w-4 mr-2" />
                       Create Event
                     </Button>
                   </Link>

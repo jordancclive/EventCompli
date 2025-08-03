@@ -207,8 +207,8 @@ export function EventDetail() {
       {/* Event Header */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
         <div className="h-48 bg-cover bg-center" style={{
-        backgroundImage: `url(${eventData.image})`
-      }}>
+          backgroundImage: `url(${eventData.image})`
+        }}>
           <div className="h-full w-full bg-black bg-opacity-30 flex items-end p-6">
             <h1 className="text-3xl font-bold text-white">{eventData.name}</h1>
           </div>
@@ -235,8 +235,8 @@ export function EventDetail() {
                   <div className="flex items-center">
                     <div className="w-16 bg-gray-200 h-2 rounded-full overflow-hidden mr-2">
                       <div className={`h-full rounded-full ${eventData.complianceRate > 80 ? 'bg-green-500' : eventData.complianceRate > 60 ? 'bg-yellow-500' : 'bg-red-500'}`} style={{
-                      width: `${eventData.complianceRate}%`
-                    }}></div>
+                        width: `${eventData.complianceRate}%`
+                      }}></div>
                     </div>
                     <span className="text-sm font-medium">
                       {eventData.complianceRate}% compliant
@@ -497,8 +497,8 @@ export function EventDetail() {
                           </div>
                           <div className="w-full bg-gray-200 rounded-full h-2.5">
                             <div className="bg-blue-600 h-2.5 rounded-full" style={{
-                        width: `${type.count / eventData.totalVendors * 100}%`
-                      }}></div>
+                          width: `${type.count / eventData.totalVendors * 100}%`
+                        }}></div>
                           </div>
                         </div>
                       </div>)}

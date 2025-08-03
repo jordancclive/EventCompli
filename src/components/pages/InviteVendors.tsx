@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { UsersIcon, PlusIcon, UploadIcon, MailIcon, XIcon, CheckIcon, AlertCircleIcon, ArrowLeftIcon, FileTextIcon, CircleIcon, ChevronRightIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
@@ -35,6 +35,18 @@ export function InviteVendors() {
     number: 4,
     title: 'Confirmation'
   }];
+  // Update current step based on user actions
+  useEffect(() => {
+    if (sendSuccess) {
+      setCurrentStep(4); // Confirmation step
+    } else if (isPreview) {
+      setCurrentStep(3); // Preview & Send step
+    } else if (customMessage.trim().length > 0 || currentStep > 1) {
+      setCurrentStep(2); // Customize Message step
+    } else {
+      setCurrentStep(1); // Vendor List step
+    }
+  }, [isPreview, customMessage, sendSuccess]);
   const addManualEmail = () => {
     setManualEmails([...manualEmails, {
       email: '',
@@ -69,6 +81,7 @@ export function InviteVendors() {
           type: ''
         }]);
         setCustomMessage('');
+        setCurrentStep(1);
       }, 3000);
     }, 1500);
   };
@@ -88,8 +101,13 @@ export function InviteVendors() {
     }
   };
   const goToStep = stepNumber => {
-    // Only allow clicking on completed steps or the next available step
-    if (stepNumber < currentStep || stepNumber === currentStep) {
+    // Only allow clicking on completed steps or the current step
+    if (stepNumber <= currentStep) {
+      if (stepNumber === 1) {
+        setIsPreview(false);
+      } else if (stepNumber === 3 && currentStep >= 3) {
+        setIsPreview(true);
+      }
       setCurrentStep(stepNumber);
     }
   };
@@ -285,81 +303,83 @@ export function InviteVendors() {
   };
   return <div className="flex-1 px-6 py-8">
       <div className="container mx-auto max-w-6xl">
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="md:w-72 bg-white rounded-lg shadow-md p-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-8">
-            Invite Vendors
-          </h1>
-          <VerticalStepIndicator steps={steps} currentStep={currentStep} onStepClick={goToStep} />
-        </div>
-        <div className="flex-1">
-          <div className="bg-white rounded-lg shadow-md p-8">
-            {renderInviteForm()}
+        <div className="flex flex-col md:flex-row gap-6">
+          <div className="md:w-72 bg-white rounded-lg shadow-md p-6">
+            <h1 className="text-2xl font-bold text-gray-900 mb-8">
+              Invite Vendors
+            </h1>
+            <VerticalStepIndicator steps={steps} currentStep={currentStep} onStepClick={goToStep} />
           </div>
-          <div className="mt-6 bg-white rounded-lg shadow-md p-6">
-            <h3 className="font-medium text-gray-900 mb-4">About This Event</h3>
-            <div className="space-y-3 text-sm">
-              <div>
-                <span className="text-gray-500">Event:</span>
-                <span className="font-medium text-gray-900 ml-2">
-                  {eventId}
-                </span>
+          <div className="flex-1">
+            <div className="bg-white rounded-lg shadow-md p-8">
+              {renderInviteForm()}
+            </div>
+            <div className="mt-6 bg-white rounded-lg shadow-md p-6">
+              <h3 className="font-medium text-gray-900 mb-4">
+                About This Event
+              </h3>
+              <div className="space-y-3 text-sm">
+                <div>
+                  <span className="text-gray-500">Event:</span>
+                  <span className="font-medium text-gray-900 ml-2">
+                    {eventId}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-gray-500">Date:</span>
+                  <span className="font-medium text-gray-900 ml-2">
+                    June 15-17, 2023
+                  </span>
+                </div>
+                <div>
+                  <span className="text-gray-500">Location:</span>
+                  <span className="font-medium text-gray-900 ml-2">
+                    Central Park, New York
+                  </span>
+                </div>
+                <div>
+                  <span className="text-gray-500">Registration:</span>
+                  <span className="font-medium text-gray-900 ml-2">
+                    Invite Only
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className="text-gray-500">Date:</span>
-                <span className="font-medium text-gray-900 ml-2">
-                  June 15-17, 2023
-                </span>
-              </div>
-              <div>
-                <span className="text-gray-500">Location:</span>
-                <span className="font-medium text-gray-900 ml-2">
-                  Central Park, New York
-                </span>
-              </div>
-              <div>
-                <span className="text-gray-500">Registration:</span>
-                <span className="font-medium text-gray-900 ml-2">
-                  Invite Only
-                </span>
+            </div>
+            <div className="mt-6 bg-white rounded-lg shadow-md p-6">
+              <h3 className="font-medium text-gray-900 mb-4">
+                Tips for Inviting Vendors
+              </h3>
+              <ul className="space-y-3 text-sm text-gray-600">
+                <li className="flex items-start">
+                  <CircleIcon className="h-2 w-2 text-gray-400 mr-2 mt-1.5" />
+                  <span>
+                    Personalize your message with specific event details
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <CircleIcon className="h-2 w-2 text-gray-400 mr-2 mt-1.5" />
+                  <span>Include important deadlines and requirements</span>
+                </li>
+                <li className="flex items-start">
+                  <CircleIcon className="h-2 w-2 text-gray-400 mr-2 mt-1.5" />
+                  <span>
+                    Specify vendor types to streamline the registration process
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <CircleIcon className="h-2 w-2 text-gray-400 mr-2 mt-1.5" />
+                  <span>Follow up with vendors who haven't responded</span>
+                </li>
+              </ul>
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <Button variant="outline" className="w-full flex items-center justify-center">
+                  <FileTextIcon className="h-4 w-4 mr-2" />
+                  View Vendor Portal
+                </Button>
               </div>
             </div>
           </div>
-          <div className="mt-6 bg-white rounded-lg shadow-md p-6">
-            <h3 className="font-medium text-gray-900 mb-4">
-              Tips for Inviting Vendors
-            </h3>
-            <ul className="space-y-3 text-sm text-gray-600">
-              <li className="flex items-start">
-                <CircleIcon className="h-2 w-2 text-gray-400 mr-2 mt-1.5" />
-                <span>
-                  Personalize your message with specific event details
-                </span>
-              </li>
-              <li className="flex items-start">
-                <CircleIcon className="h-2 w-2 text-gray-400 mr-2 mt-1.5" />
-                <span>Include important deadlines and requirements</span>
-              </li>
-              <li className="flex items-start">
-                <CircleIcon className="h-2 w-2 text-gray-400 mr-2 mt-1.5" />
-                <span>
-                  Specify vendor types to streamline the registration process
-                </span>
-              </li>
-              <li className="flex items-start">
-                <CircleIcon className="h-2 w-2 text-gray-400 mr-2 mt-1.5" />
-                <span>Follow up with vendors who haven't responded</span>
-              </li>
-            </ul>
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <Button variant="outline" className="w-full flex items-center justify-center">
-                <FileTextIcon className="h-4 w-4 mr-2" />
-                View Vendor Portal
-              </Button>
-            </div>
-          </div>
         </div>
-      </div>
       </div>
     </div>;
 }

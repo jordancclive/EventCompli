@@ -164,168 +164,175 @@ export function Documents() {
   };
   return <main className="flex-1 px-6 py-8">
       <div className="container mx-auto max-w-6xl">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Documents</h1>
-          <p className="text-gray-600">
-            Manage vendor documents and compliance status
-          </p>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Documents</h1>
+            <p className="text-gray-600">
+              Manage vendor documents and compliance status
+            </p>
+          </div>
+          <Button variant="outline" className="mt-4 md:mt-0 flex items-center">
+            <FileTextIcon className="h-4 w-4 mr-2" />
+            Add Document
+          </Button>
         </div>
-        <Button variant="outline" className="mt-4 md:mt-0 flex items-center">
-          <FileTextIcon className="h-4 w-4 mr-2" />
-          Add Document
-        </Button>
-      </div>
-      {/* Documents Table */}
-      <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-        {/* Search and Filters */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex flex-col md:flex-row gap-4">
-            {/* Filters - Left Side */}
-            <div className="flex flex-wrap gap-2">
-              <div className="relative">
-                <select id="statusFilter" className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
-                  <option value="all">All Statuses</option>
-                  <option value="approved">Approved</option>
-                  <option value="pending">Pending</option>
-                  <option value="rejected">Rejected</option>
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <ChevronDownIcon className="h-4 w-4 text-gray-400" />
+        {/* Documents Table */}
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+          {/* Search and Filters */}
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex flex-col md:flex-row gap-4">
+              {/* Filters - Left Side */}
+              <div className="flex flex-wrap gap-2">
+                <div className="relative">
+                  <select id="statusFilter" className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+                    <option value="all">All Statuses</option>
+                    <option value="approved">Approved</option>
+                    <option value="pending">Pending</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <ChevronDownIcon className="h-4 w-4 text-gray-400" />
+                  </div>
+                </div>
+                <div className="relative">
+                  <select id="docTypeFilter" className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={filterDocType} onChange={e => setFilterDocType(e.target.value)}>
+                    <option value="all">All Document Types</option>
+                    {docTypes.map(type => <option key={type} value={type}>
+                        {type}
+                      </option>)}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <ChevronDownIcon className="h-4 w-4 text-gray-400" />
+                  </div>
+                </div>
+                <div className="relative">
+                  <select id="eventFilter" className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={filterEvent} onChange={e => setFilterEvent(e.target.value)}>
+                    <option value="all">All Events</option>
+                    {events.map(event => <option key={event} value={event}>
+                        {event}
+                      </option>)}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <ChevronDownIcon className="h-4 w-4 text-gray-400" />
+                  </div>
                 </div>
               </div>
-              <div className="relative">
-                <select id="docTypeFilter" className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={filterDocType} onChange={e => setFilterDocType(e.target.value)}>
-                  <option value="all">All Document Types</option>
-                  {docTypes.map(type => <option key={type} value={type}>
-                      {type}
-                    </option>)}
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <ChevronDownIcon className="h-4 w-4 text-gray-400" />
+              {/* Search - Right Side */}
+              <div className="relative flex-grow">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <SearchIcon className="h-5 w-5 text-gray-400" />
                 </div>
+                <input type="text" className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Search documents, vendors, or events..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
               </div>
-              <div className="relative">
-                <select id="eventFilter" className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={filterEvent} onChange={e => setFilterEvent(e.target.value)}>
-                  <option value="all">All Events</option>
-                  {events.map(event => <option key={event} value={event}>
-                      {event}
-                    </option>)}
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <ChevronDownIcon className="h-4 w-4 text-gray-400" />
-                </div>
-              </div>
-            </div>
-            {/* Search - Right Side */}
-            <div className="relative flex-grow">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon className="h-5 w-5 text-gray-400" />
-              </div>
-              <input type="text" className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Search documents, vendors, or events..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
             </div>
           </div>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Document
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Vendor
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Expiration
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredDocuments.length > 0 ? filteredDocuments.map(doc => <tr key={doc.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div>
-                        <div className="text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer">
-                          <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
-                            {doc.name}
-                          </a>
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          {doc.type} • Uploaded: {new Date(doc.date).toLocaleDateString()}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{doc.vendor}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <StatusBadge status={doc.status} />
-                      {doc.notes && <div className="text-xs text-gray-500 mt-1">
-                          {doc.notes}
-                        </div>}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {doc.expiryDate ? <div>
-                          <div className="text-sm text-gray-900">
-                            {new Date(doc.expiryDate) < new Date() ? <span className="text-red-600 font-medium">
-                                Expired
-                              </span> : new Date(doc.expiryDate).toLocaleDateString()}
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Document
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Vendor
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Expiration
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredDocuments.length > 0 ? filteredDocuments.map(doc => <tr key={doc.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div>
+                          <div className="text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer">
+                            <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
+                              {doc.name}
+                            </a>
                           </div>
-                          {new Date(doc.expiryDate) > new Date() && <div className="text-xs text-gray-500">
-                              {Math.ceil((new Date(doc.expiryDate) - new Date()) / (1000 * 60 * 60 * 24))}{' '}
-                              days left
-                            </div>}
-                        </div> : <span className="text-xs text-gray-500">N/A</span>}
+                          <div className="text-xs text-gray-500">
+                            {doc.type} • Uploaded:{' '}
+                            {new Date(doc.date).toLocaleDateString()}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {doc.vendor}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <StatusBadge status={doc.status} />
+                        {doc.notes && <div className="text-xs text-gray-500 mt-1">
+                            {doc.notes}
+                          </div>}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {doc.expiryDate ? <div>
+                            <div className="text-sm text-gray-900">
+                              {new Date(doc.expiryDate) < new Date() ? <span className="text-red-600 font-medium">
+                                  Expired
+                                </span> : new Date(doc.expiryDate).toLocaleDateString()}
+                            </div>
+                            {new Date(doc.expiryDate) > new Date() && <div className="text-xs text-gray-500">
+                                {Math.ceil((new Date(doc.expiryDate) - new Date()) / (1000 * 60 * 60 * 24))}{' '}
+                                days left
+                              </div>}
+                          </div> : <span className="text-xs text-gray-500">N/A</span>}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-2">
+                          <button className="text-blue-600 hover:text-blue-900">
+                            <DownloadIcon className="h-5 w-5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>) : <tr>
+                    <td colSpan={5} className="px-6 py-10 text-center text-sm text-gray-500">
+                      No documents found matching your search criteria
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2">
-                        <button className="text-blue-600 hover:text-blue-900">
-                          <DownloadIcon className="h-5 w-5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>) : <tr>
-                  <td colSpan={5} className="px-6 py-10 text-center text-sm text-gray-500">
-                    No documents found matching your search criteria
-                  </td>
-                </tr>}
-            </tbody>
-          </table>
-        </div>
-        {/* Pagination - simplified for demo */}
-        <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                Showing <span className="font-medium">1</span> to{' '}
-                <span className="font-medium">{filteredDocuments.length}</span>{' '}
-                of{' '}
-                <span className="font-medium">{filteredDocuments.length}</span>{' '}
-                results
-              </p>
-            </div>
-            <div>
-              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <button disabled className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-300">
-                  Previous
-                </button>
-                <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                  1
-                </button>
-                <button disabled className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-300">
-                  Next
-                </button>
-              </nav>
+                  </tr>}
+              </tbody>
+            </table>
+          </div>
+          {/* Pagination - simplified for demo */}
+          <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm text-gray-700">
+                  Showing <span className="font-medium">1</span> to{' '}
+                  <span className="font-medium">
+                    {filteredDocuments.length}
+                  </span>{' '}
+                  of{' '}
+                  <span className="font-medium">
+                    {filteredDocuments.length}
+                  </span>{' '}
+                  results
+                </p>
+              </div>
+              <div>
+                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                  <button disabled className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-300">
+                    Previous
+                  </button>
+                  <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    1
+                  </button>
+                  <button disabled className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-300">
+                    Next
+                  </button>
+                </nav>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </main>;
 }

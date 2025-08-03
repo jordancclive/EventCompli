@@ -137,9 +137,9 @@ export function VendorRegistration() {
               </div>
             </div> : null}
           <form onSubmit={e => {
-          e.preventDefault();
-          validateEmail();
-        }}>
+            e.preventDefault();
+            validateEmail();
+          }}>
             <div className="mb-6">
               <FormField label="Email Address" id="email" name="email" type="email" required value={formData.email} onChange={handleChange} placeholder="your@email.com" />
             </div>
