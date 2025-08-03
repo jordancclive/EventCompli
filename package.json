@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "homepage": "https://jordancclive.github.io/EventCompli",
+  "homepage": "https://jordancclive.github.io/eventcompli-app",
   "scripts": {
     "dev": "npx vite",
     "build": "npx vite build",
