@@ -12,7 +12,7 @@ export function Home({
   };
   return <main className="flex-1 w-full">
       {/* Hero Section */}
-      <section className="bg-white py-12 md:py-20">
+      <section className="bg-white py-8 md:py-12">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 mb-10 md:mb-0">
@@ -27,16 +27,21 @@ export function Home({
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div>
-                  <Button variant="accent" size="lg" onClick={handleSignUp} className="px-8 py-3 text-base bg-orange-500 hover:bg-orange-600">
+                  <Button variant="accent" onClick={handleSignUp} className="px-8 py-3 text-base">
                     Sign Up Free
                   </Button>
                   <p className="text-sm text-gray-500 mt-2">
                     *Small charge for vendors
                   </p>
                 </div>
-                <Button variant="outline" size="lg" onClick={toggleAuth} className="px-8 py-3 text-base">
-                  Sign In
-                </Button>
+                <div>
+                  <Button variant="outline" onClick={toggleAuth} className="px-8 py-3 text-base">
+                    Sign In
+                  </Button>
+                  <p className="text-sm text-transparent mt-2">
+                    &nbsp;
+                  </p>
+                </div>
               </div>
             </div>
             <div className="md:w-1/2 flex justify-center">
@@ -202,9 +207,9 @@ export function Home({
         </div>
       </section>
       {/* CTA Section */}
-      <section className="py-12 bg-white">
+      <section className="py-8 bg-white">
         <div className="container mx-auto px-6 max-w-6xl text-center">
-          <div className="mb-4">
+          <div className="mb-2">
             <img src="/CompliBot3.png" alt="CompliBot" className="h-auto w-40 mx-auto" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -219,9 +224,14 @@ export function Home({
                 *Small charge for vendors
               </p>
             </div>
-            <Button variant="outline" onClick={toggleAuth} className="px-8 py-3 text-base">
-              Sign In
-            </Button>
+            <div>
+              <Button variant="outline" onClick={toggleAuth} className="px-8 py-3 text-base">
+                Sign In
+              </Button>
+              <p className="text-sm text-transparent mt-2">
+                &nbsp;
+              </p>
+            </div>
           </div>
         </div>
       </section>

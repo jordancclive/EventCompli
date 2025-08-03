@@ -90,7 +90,8 @@ export function VendorTypeCreation() {
     console.log('Saving vendor type:', formData);
     // Redirect to vendor types list or show success message
   };
-  return <main className="flex-1 container mx-auto px-4 py-8 max-w-4xl">
+  return <main className="flex-1 px-6 py-8">
+      <div className="container mx-auto max-w-6xl">
       <div className="bg-white rounded-lg shadow-md p-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">
           Create Vendor Type
@@ -107,6 +108,7 @@ export function VendorTypeCreation() {
               Create Vendor Type
             </Button>}
         </div>
+      </div>
       </div>
     </main>;
 }

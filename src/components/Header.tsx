@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuIcon, XIcon } from 'lucide-react';
+import { MenuIcon, XIcon, PlusIcon } from 'lucide-react';
 import { Button } from './ui/Button';
 export function Header({
   isAuthenticated,
@@ -16,21 +16,21 @@ export function Header({
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex items-center">
-              <img src="/CompliBotIcon.svg" alt="CompliBot" className="h-10 w-10 mr-3" />
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-gray-900">
-                  EventCompli
-                </span>
-                <span className="text-xs text-blue-600">
-                  powered by CompliBot
-                </span>
+              <div className="text-2xl font-bold mr-1.5 leading-none">
+                <span className="text-blue-600">Event</span><span className="text-gray-900">Compli</span>
               </div>
+              <img src="/CompliBotIcon.svg" alt="CompliBot" className="h-6 w-6" />
             </Link>
             {isAuthenticated && <nav className="hidden md:flex ml-10">
                 <ul className="flex space-x-8">
                   <li>
                     <Link to="/dashboard" className={`text-sm font-medium ${location.pathname === '/dashboard' ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'text-gray-700 hover:text-blue-600'}`}>
-                      Events
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/vendors" className={`text-sm font-medium ${location.pathname === '/vendors' ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'text-gray-700 hover:text-blue-600'}`}>
+                      Vendors
                     </Link>
                   </li>
                   <li>
@@ -39,21 +39,29 @@ export function Header({
                     </Link>
                   </li>
                   <li>
-                    <Link to="/vendors" className={`text-sm font-medium ${location.pathname === '/vendors' ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'text-gray-700 hover:text-blue-600'}`}>
-                      Vendors
+                    <Link to="/activity-log" className={`text-sm font-medium ${location.pathname === '/activity-log' ? 'text-blue-600 border-b-2 border-blue-600 pb-1' : 'text-gray-700 hover:text-blue-600'}`}>
+                      Activity Log
                     </Link>
                   </li>
                 </ul>
               </nav>}
           </div>
-          <div className="hidden md:flex items-center space-x-4">
-            {isAuthenticated ? <Button variant="outline" onClick={toggleAuth}>
-                Sign Out
-              </Button> : <>
+          <div className="hidden md:flex items-center space-x-8">
+            {isAuthenticated ? <>
+                <button onClick={toggleAuth} className="text-sm font-medium text-gray-700 hover:text-blue-600">
+                  Sign Out
+                </button>
+                <Link to="/create-event">
+                  <Button variant="primary" className="flex items-center">
+                    <PlusIcon className="h-4 w-4 mr-2" />
+                    Create Event
+                  </Button>
+                </Link>
+              </> : <>
                 <Button variant="outline" onClick={toggleAuth} className="px-8 py-3 text-base">
                   Sign In
                 </Button>
-                <Button variant="accent" onClick={toggleAuth}>
+                <Button variant="accent" onClick={toggleAuth} className="px-8 py-3 text-base">
                   Sign Up Free
                 </Button>
               </>}
@@ -68,7 +76,12 @@ export function Header({
                 <ul className="space-y-4">
                   <li>
                     <Link to="/dashboard" className={`block text-sm font-medium ${location.pathname === '/dashboard' ? 'text-blue-600' : 'text-gray-700'}`} onClick={() => setMobileMenuOpen(false)}>
-                      Events
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/vendors" className={`block text-sm font-medium ${location.pathname === '/vendors' ? 'text-blue-600' : 'text-gray-700'}`} onClick={() => setMobileMenuOpen(false)}>
+                      Vendors
                     </Link>
                   </li>
                   <li>
@@ -77,16 +90,24 @@ export function Header({
                     </Link>
                   </li>
                   <li>
-                    <Link to="/vendors" className={`block text-sm font-medium ${location.pathname === '/vendors' ? 'text-blue-600' : 'text-gray-700'}`} onClick={() => setMobileMenuOpen(false)}>
-                      Vendors
+                    <Link to="/activity-log" className={`block text-sm font-medium ${location.pathname === '/activity-log' ? 'text-blue-600' : 'text-gray-700'}`} onClick={() => setMobileMenuOpen(false)}>
+                      Activity Log
                     </Link>
                   </li>
                 </ul>
               </nav> : null}
             <div className="flex flex-col space-y-2">
-              {isAuthenticated ? <Button variant="outline" onClick={toggleAuth} className="w-full">
-                  Sign Out
-                </Button> : <>
+              {isAuthenticated ? <>
+                  <Link to="/create-event" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="primary" className="w-full flex items-center justify-center">
+                      <PlusIcon className="h-4 w-4 mr-2" />
+                      Create Event
+                    </Button>
+                  </Link>
+                  <Button variant="outline" onClick={toggleAuth} className="w-full">
+                    Sign Out
+                  </Button>
+                </> : <>
                   <Button variant="outline" onClick={toggleAuth} className="w-full">
                     Sign In
                   </Button>

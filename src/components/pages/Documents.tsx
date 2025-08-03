@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SearchIcon, FilterIcon, DownloadIcon, FileTextIcon, FileIcon, CheckCircleIcon, XCircleIcon, AlertCircleIcon, EyeIcon, ClockIcon, ChevronDownIcon, SlidersIcon, PlusIcon } from 'lucide-react';
+import { SearchIcon, FilterIcon, DownloadIcon, FileTextIcon, FileIcon, CheckCircleIcon, XCircleIcon, AlertCircleIcon, ClockIcon, ChevronDownIcon, SlidersIcon, PlusIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
 export function Documents() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -162,7 +162,8 @@ export function Documents() {
         return <FileIcon className="h-5 w-5 text-gray-500" />;
     }
   };
-  return <main className="flex-1 container mx-auto px-4 py-8 max-w-6xl">
+  return <main className="flex-1 px-6 py-8">
+      <div className="container mx-auto max-w-6xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Documents</h1>
@@ -170,76 +171,59 @@ export function Documents() {
             Manage vendor documents and compliance status
           </p>
         </div>
-        <Button variant="primary" className="mt-4 md:mt-0 flex items-center">
-          <PlusIcon className="h-4 w-4 mr-2" />
+        <Button variant="outline" className="mt-4 md:mt-0 flex items-center">
+          <FileTextIcon className="h-4 w-4 mr-2" />
           Add Document
         </Button>
       </div>
-      {/* Search and Filters */}
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-        <div className="flex flex-col md:flex-row gap-4 mb-4">
-          <div className="flex-1 relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <SearchIcon className="h-5 w-5 text-gray-400" />
-            </div>
-            <input type="text" className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Search documents, vendors, or events..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-          </div>
-          <Button variant="outline" className="flex items-center" onClick={() => setShowFilters(!showFilters)}>
-            <FilterIcon className="h-4 w-4 mr-2" />
-            Filters
-            <ChevronDownIcon className={`h-4 w-4 ml-2 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-          </Button>
-        </div>
-        {showFilters && <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-200">
-            <div>
-              <label htmlFor="statusFilter" className="block text-sm font-medium text-gray-700 mb-1">
-                Status
-              </label>
-              <select id="statusFilter" className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
-                <option value="all">All Statuses</option>
-                <option value="approved">Approved</option>
-                <option value="pending">Pending</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="docTypeFilter" className="block text-sm font-medium text-gray-700 mb-1">
-                Document Type
-              </label>
-              <select id="docTypeFilter" className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" value={filterDocType} onChange={e => setFilterDocType(e.target.value)}>
-                <option value="all">All Document Types</option>
-                {docTypes.map(type => <option key={type} value={type}>
-                    {type}
-                  </option>)}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="eventFilter" className="block text-sm font-medium text-gray-700 mb-1">
-                Event
-              </label>
-              <select id="eventFilter" className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" value={filterEvent} onChange={e => setFilterEvent(e.target.value)}>
-                <option value="all">All Events</option>
-                {events.map(event => <option key={event} value={event}>
-                    {event}
-                  </option>)}
-              </select>
-            </div>
-          </div>}
-      </div>
       {/* Documents Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Document Library
-          </h2>
-          <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-500">
-              {filteredDocuments.length} documents
-            </span>
-            <Button variant="outline" size="sm" className="flex items-center">
-              <div className="h-3.5 w-3.5 mr-1" />
-              Refresh
-            </Button>
+      <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+        {/* Search and Filters */}
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Filters - Left Side */}
+            <div className="flex flex-wrap gap-2">
+              <div className="relative">
+                <select id="statusFilter" className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+                  <option value="all">All Statuses</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <ChevronDownIcon className="h-4 w-4 text-gray-400" />
+                </div>
+              </div>
+              <div className="relative">
+                <select id="docTypeFilter" className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={filterDocType} onChange={e => setFilterDocType(e.target.value)}>
+                  <option value="all">All Document Types</option>
+                  {docTypes.map(type => <option key={type} value={type}>
+                      {type}
+                    </option>)}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <ChevronDownIcon className="h-4 w-4 text-gray-400" />
+                </div>
+              </div>
+              <div className="relative">
+                <select id="eventFilter" className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={filterEvent} onChange={e => setFilterEvent(e.target.value)}>
+                  <option value="all">All Events</option>
+                  {events.map(event => <option key={event} value={event}>
+                      {event}
+                    </option>)}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <ChevronDownIcon className="h-4 w-4 text-gray-400" />
+                </div>
+              </div>
+            </div>
+            {/* Search - Right Side */}
+            <div className="relative flex-grow">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <SearchIcon className="h-5 w-5 text-gray-400" />
+              </div>
+              <input type="text" className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Search documents, vendors, or events..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+            </div>
           </div>
         </div>
         <div className="overflow-x-auto">
@@ -251,9 +235,6 @@ export function Documents() {
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Vendor
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Event
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
@@ -269,28 +250,19 @@ export function Documents() {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredDocuments.length > 0 ? filteredDocuments.map(doc => <tr key={doc.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center">
-                          <DocTypeIcon type={doc.type} />
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
+                      <div>
+                        <div className="text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer">
+                          <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
                             {doc.name}
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {doc.type}
-                          </div>
+                          </a>
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {doc.type} • Uploaded: {new Date(doc.date).toLocaleDateString()}
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{doc.vendor}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{doc.event}</div>
-                      <div className="text-xs text-gray-500">
-                        Uploaded: {new Date(doc.date).toLocaleDateString()}
-                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <StatusBadge status={doc.status} />
@@ -314,15 +286,12 @@ export function Documents() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
                         <button className="text-blue-600 hover:text-blue-900">
-                          <EyeIcon className="h-5 w-5" />
-                        </button>
-                        <button className="text-blue-600 hover:text-blue-900">
                           <DownloadIcon className="h-5 w-5" />
                         </button>
                       </div>
                     </td>
                   </tr>) : <tr>
-                  <td colSpan={6} className="px-6 py-10 text-center text-sm text-gray-500">
+                  <td colSpan={5} className="px-6 py-10 text-center text-sm text-gray-500">
                     No documents found matching your search criteria
                   </td>
                 </tr>}
@@ -356,6 +325,7 @@ export function Documents() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </main>;
 }

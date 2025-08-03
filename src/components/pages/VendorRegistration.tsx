@@ -111,7 +111,8 @@ export function VendorRegistration() {
   };
   // Render email validation step for private events
   if (isPrivateEvent && !emailValidated && step === 1) {
-    return <div className="flex-1 container mx-auto px-4 py-8 max-w-md">
+    return <div className="flex-1 px-6">
+      <div className="container mx-auto py-8 max-w-md">
         <div className="bg-white rounded-lg shadow-md p-8">
           <div className="text-center mb-6">
             <img src="/CompliBot.png" alt="EventCompli" className="h-16 w-16 mx-auto mb-4" />
@@ -147,11 +148,13 @@ export function VendorRegistration() {
             </Button>
           </form>
         </div>
-      </div>;
+      </div>
+    </div>;
   }
   // Render submission confirmation
   if (isSubmitted) {
-    return <div className="flex-1 container mx-auto px-4 py-8 max-w-md">
+    return <div className="flex-1 px-6">
+      <div className="container mx-auto py-8 max-w-md">
         <div className="bg-white rounded-lg shadow-md p-8 text-center">
           <div className="mb-6">
             <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
@@ -200,9 +203,11 @@ export function VendorRegistration() {
             </Link>
           </div>
         </div>
-      </div>;
+      </div>
+    </div>;
   }
-  return <div className="flex-1 container mx-auto px-4 py-8 max-w-3xl">
+  return <div className="flex-1 px-6">
+      <div className="container mx-auto py-8 max-w-3xl">
       <div className="bg-white rounded-lg shadow-md p-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
@@ -337,7 +342,7 @@ export function VendorRegistration() {
                         <XIcon className="h-4 w-4" />
                       </button>
                     </div> : <div>
-                      <label className="flex items-center justify-center w-full h-24 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-blue-400 focus:outline-none">
+                      <label className="flex items-center justify-center w-full h-24 px-6 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-blue-400 focus:outline-none">
                         <span className="flex items-center space-x-2">
                           <UploadIcon className="w-6 h-6 text-gray-500" />
                           <span className="font-medium text-gray-600">
@@ -380,7 +385,7 @@ export function VendorRegistration() {
                         <XIcon className="h-4 w-4" />
                       </button>
                     </div> : <div>
-                      <label className="flex items-center justify-center w-full h-24 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-blue-400 focus:outline-none">
+                      <label className="flex items-center justify-center w-full h-24 px-6 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-blue-400 focus:outline-none">
                         <span className="flex items-center space-x-2">
                           <UploadIcon className="w-6 h-6 text-gray-500" />
                           <span className="font-medium text-gray-600">
@@ -426,7 +431,7 @@ export function VendorRegistration() {
                           <XIcon className="h-4 w-4" />
                         </button>
                       </div> : <div>
-                        <label className="flex items-center justify-center w-full h-24 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-blue-400 focus:outline-none">
+                        <label className="flex items-center justify-center w-full h-24 px-6 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-blue-400 focus:outline-none">
                           <span className="flex items-center space-x-2">
                             <UploadIcon className="w-6 h-6 text-gray-500" />
                             <span className="font-medium text-gray-600">
@@ -477,7 +482,7 @@ export function VendorRegistration() {
                         <XIcon className="h-4 w-4" />
                       </button>
                     </div> : <div>
-                      <label className="flex items-center justify-center w-full h-24 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-blue-400 focus:outline-none">
+                      <label className="flex items-center justify-center w-full h-24 px-6 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-blue-400 focus:outline-none">
                         <span className="flex items-center space-x-2">
                           <UploadIcon className="w-6 h-6 text-gray-500" />
                           <span className="font-medium text-gray-600">
@@ -590,5 +595,6 @@ export function VendorRegistration() {
             </div>}
         </form>
       </div>
-    </div>;
+    </div>
+  </div>;
 }

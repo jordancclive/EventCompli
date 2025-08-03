@@ -283,7 +283,8 @@ export function InviteVendors() {
         </div>
       </div>;
   };
-  return <div className="flex-1 container mx-auto px-4 py-8 max-w-6xl">
+  return <div className="flex-1 px-6 py-8">
+      <div className="container mx-auto max-w-6xl">
       <div className="flex flex-col md:flex-row gap-6">
         <div className="md:w-72 bg-white rounded-lg shadow-md p-6">
           <h1 className="text-2xl font-bold text-gray-900 mb-8">
@@ -358,6 +359,7 @@ export function InviteVendors() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>;
 }

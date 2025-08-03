@@ -1,9 +1,26 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { PlusIcon, CalendarIcon, CheckCircleIcon, ClockIcon, ArchiveIcon, ChevronRightIcon, BarChart3Icon, AlertCircleIcon, LinkIcon, ExternalLinkIcon, UserPlusIcon, ClipboardCopyIcon, ActivityIcon } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { CalendarIcon, CheckCircleIcon, ClockIcon, ArchiveIcon, ChevronRightIcon, BarChart3Icon, AlertCircleIcon, LinkIcon, ExternalLinkIcon, UserPlusIcon, ClipboardCopyIcon, ActivityIcon, SearchIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
 export function Dashboard() {
   const [activeTab, setActiveTab] = useState('upcoming');
+  const navigate = useNavigate();
+  
+  // Data values for all dashboard metrics
+  const dashboardData = {
+    compliant: 94,
+    nonCompliant: 29,
+    expired: 5,
+    expiringSoon: 7,
+    newRegistrations: 12,
+    updatedRegistrations: 6
+  };
+  
+  // Find the maximum value across all metrics to set the scale
+  const maxValue = Math.max(...Object.values(dashboardData));
+  
+  // Calculate proportional width for any value
+  const getBarWidth = (value) => `${(value / maxValue) * 100}%`;
   // Sample events data for demonstration
   const upcomingEvents = [{
     id: 1,
@@ -95,161 +112,175 @@ export function Dashboard() {
   const hasReachedLimit = event => {
     return event.maxVendors > 0 && event.totalVendors >= event.maxVendors;
   };
-  return <main className="flex-1 container mx-auto px-4 py-8 max-w-6xl">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+  return <main className="flex-1 px-6 py-8">
+      <div className="container mx-auto max-w-6xl">
+      <div className="mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Events Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Home Dashboard</h1>
           <p className="text-gray-600">
-            Manage your events and monitor vendor compliance
+            Monitor vendor compliance and manage your events
           </p>
         </div>
-        <Link to="/create-event">
-          <Button variant="primary" className="mt-4 md:mt-0 flex items-center">
-            <PlusIcon className="h-4 w-4 mr-2" />
-            Create Event
-          </Button>
-        </Link>
       </div>
-      {/* Compliance Overview Section */}
-      <section className="bg-white rounded-lg shadow-sm p-6 mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Compliance Overview
-          </h2>
-          <Button variant="outline" className="text-sm px-3 py-1 h-auto">
-            View All
-          </Button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">Overall Compliance</p>
-                <p className="text-2xl font-bold text-gray-900">76%</p>
-              </div>
-              <div className="bg-green-100 p-2 rounded-md">
-                <CheckCircleIcon className="h-5 w-5 text-green-600" />
-              </div>
-            </div>
-            <div className="mt-2">
-              <div className="grid grid-cols-3 gap-2 mb-2">
-                <div className="text-xs text-gray-500 font-medium">Vendors</div>
-                <div></div>
-                <div></div>
-              </div>
-              <div className="grid grid-cols-3 gap-2 mb-1">
-                <div className="flex items-center">
-                  <span className="text-xs mr-2">Compliant</span>
-                  <div className="w-20 h-3 bg-blue-500 rounded-sm"></div>
-                </div>
-                <div className="text-xs font-medium">94</div>
-                <div></div>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="flex items-center">
-                  <span className="text-xs mr-2">Non-compliant</span>
-                  <div className="w-10 h-3 bg-red-500 rounded-sm"></div>
-                </div>
-                <div className="text-xs font-medium">29</div>
-                <div></div>
-              </div>
+      {/* Compliance Cards */}
+      {/* Overall Compliance - Full Width */}
+      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-8">
+        <div className="flex justify-between items-start">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">Overall Compliance</h2>
+          </div>
+          <div className="flex items-center space-x-3">
+            <p className="text-2xl font-bold text-gray-900">{Math.round((dashboardData.compliant / (dashboardData.compliant + dashboardData.nonCompliant)) * 100)}%</p>
+            <div className="bg-green-100 p-2 rounded-md">
+              <CheckCircleIcon className="h-5 w-5 text-green-600" />
             </div>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">
-                  COIs Needing Renewal
-                </p>
-                <p className="text-2xl font-bold text-gray-900">12</p>
-              </div>
+        </div>
+        <div className="mt-6">
+          <div className="grid grid-cols-[90px_140px_1fr_24px] gap-4 items-center mb-3">
+            <div></div>
+            <div className="text-sm text-gray-500 font-medium text-right">Vendors</div>
+            <div></div>
+            <div></div>
+          </div>
+          <div className="space-y-1">
+            <div 
+              className="grid grid-cols-[90px_140px_1fr_24px] gap-4 items-center cursor-pointer hover:bg-gray-50 -mx-2 px-2 py-2 rounded"
+              onClick={() => navigate('/vendors?filter=compliant')}
+            >
+              <span className="text-sm whitespace-nowrap text-blue-600 hover:text-blue-800 font-medium">Compliant</span>
+              <div className="text-sm font-medium text-right">{dashboardData.compliant}</div>
+              <div className="h-4 bg-blue-500 rounded-sm" style={{width: getBarWidth(dashboardData.compliant)}}></div>
+              <ChevronRightIcon className="h-4 w-4 text-gray-400" />
+            </div>
+            <div 
+              className="grid grid-cols-[90px_140px_1fr_24px] gap-4 items-center cursor-pointer hover:bg-gray-50 -mx-2 px-2 py-2 rounded"
+              onClick={() => navigate('/vendors?filter=non-compliant')}
+            >
+              <span className="text-sm whitespace-nowrap text-blue-600 hover:text-blue-800 font-medium">Non-compliant</span>
+              <div className="text-sm font-medium text-right">{dashboardData.nonCompliant}</div>
+              <div className="h-4 bg-red-500 rounded-sm" style={{width: getBarWidth(dashboardData.nonCompliant)}}></div>
+              <ChevronRightIcon className="h-4 w-4 text-gray-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Other Two Cards - Side by Side */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                COIs Needing Renewal
+              </h2>
+            </div>
+            <div className="flex items-center space-x-3">
+              <p className="text-2xl font-bold text-gray-900">{dashboardData.expired + dashboardData.expiringSoon}</p>
               <div className="bg-yellow-100 p-2 rounded-md">
                 <ClockIcon className="h-5 w-5 text-yellow-600" />
               </div>
             </div>
-            <div className="mt-2">
-              <div className="grid grid-cols-3 gap-2 mb-2">
-                <div className="text-xs text-gray-500 font-medium">
-                  Reminders Sent
-                </div>
-                <div></div>
-                <div></div>
+          </div>
+          <div className="mt-6">
+            <div className="grid grid-cols-[90px_140px_1fr_24px] gap-4 items-center mb-3">
+              <div></div>
+              <div className="text-sm text-gray-500 font-medium text-right whitespace-nowrap">Reminders Sent</div>
+              <div></div>
+              <div></div>
+            </div>
+            <div className="space-y-1">
+              <div 
+                className="grid grid-cols-[90px_140px_1fr_24px] gap-4 items-center cursor-pointer hover:bg-gray-50 -mx-2 px-2 py-2 rounded"
+                onClick={() => navigate('/documents?filter=expired')}
+              >
+                <span className="text-sm whitespace-nowrap text-blue-600 hover:text-blue-800 font-medium">Expired</span>
+                <div className="text-sm font-medium text-right">{dashboardData.expired}</div>
+                <div className="h-4 bg-red-500 rounded-sm" style={{width: getBarWidth(dashboardData.expired)}}></div>
+                <ChevronRightIcon className="h-4 w-4 text-gray-400" />
               </div>
-              <div className="grid grid-cols-3 gap-2 mb-1">
-                <div className="flex items-center">
-                  <span className="text-xs mr-2">Expired</span>
-                  <div className="w-8 h-3 bg-red-500 rounded-sm"></div>
-                </div>
-                <div className="text-xs font-medium">5</div>
-                <div></div>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="flex items-center">
-                  <span className="text-xs mr-2">&lt;7 Days Left</span>
-                  <div className="w-12 h-3 bg-orange-400 rounded-sm"></div>
-                </div>
-                <div className="text-xs font-medium">7</div>
-                <div></div>
+              <div 
+                className="grid grid-cols-[90px_140px_1fr_24px] gap-4 items-center cursor-pointer hover:bg-gray-50 -mx-2 px-2 py-2 rounded"
+                onClick={() => navigate('/documents?filter=expiring-soon')}
+              >
+                <span className="text-sm whitespace-nowrap text-blue-600 hover:text-blue-800 font-medium">&lt;7 Days Left</span>
+                <div className="text-sm font-medium text-right">{dashboardData.expiringSoon}</div>
+                <div className="h-4 bg-orange-400 rounded-sm" style={{width: getBarWidth(dashboardData.expiringSoon)}}></div>
+                <ChevronRightIcon className="h-4 w-4 text-gray-400" />
               </div>
             </div>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">
-                  New Registration Activity
-                </p>
-                <p className="text-2xl font-bold text-gray-900">18</p>
-              </div>
+        </div>
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                New Registration Activity
+              </h2>
+            </div>
+            <div className="flex items-center space-x-3">
+              <p className="text-2xl font-bold text-gray-900">{dashboardData.newRegistrations + dashboardData.updatedRegistrations}</p>
               <div className="bg-blue-100 p-2 rounded-md">
                 <ActivityIcon className="h-5 w-5 text-blue-600" />
               </div>
             </div>
-            <div className="mt-2">
-              <div className="grid grid-cols-3 gap-2 mb-2">
-                <div className="text-xs text-gray-500 font-medium">
-                  Registrations
-                </div>
-                <div></div>
-                <div></div>
+          </div>
+          <div className="mt-6">
+            <div className="grid grid-cols-[90px_140px_1fr_24px] gap-4 items-center mb-3">
+              <div></div>
+              <div className="text-sm text-gray-500 font-medium text-right">Registrations</div>
+              <div></div>
+              <div></div>
+            </div>
+            <div className="space-y-1">
+              <div 
+                className="grid grid-cols-[90px_140px_1fr_24px] gap-4 items-center cursor-pointer hover:bg-gray-50 -mx-2 px-2 py-2 rounded"
+                onClick={() => navigate('/vendors?filter=new')}
+              >
+                <span className="text-sm whitespace-nowrap text-blue-600 hover:text-blue-800 font-medium">New</span>
+                <div className="text-sm font-medium text-right">{dashboardData.newRegistrations}</div>
+                <div className="h-4 bg-blue-500 rounded-sm" style={{width: getBarWidth(dashboardData.newRegistrations)}}></div>
+                <ChevronRightIcon className="h-4 w-4 text-gray-400" />
               </div>
-              <div className="grid grid-cols-3 gap-2 mb-1">
-                <div className="flex items-center">
-                  <span className="text-xs mr-2">New</span>
-                  <div className="w-16 h-3 bg-blue-500 rounded-sm"></div>
-                </div>
-                <div className="text-xs font-medium">12</div>
-                <div className="text-xs text-blue-600 font-medium">
-                  <Link to="/vendors">View</Link>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="flex items-center">
-                  <span className="text-xs mr-2">Updated</span>
-                  <div className="w-8 h-3 bg-blue-500 rounded-sm"></div>
-                </div>
-                <div className="text-xs font-medium">6</div>
-                <div className="text-xs text-blue-600 font-medium">
-                  <Link to="/vendors">View</Link>
-                </div>
+              <div 
+                className="grid grid-cols-[90px_140px_1fr_24px] gap-4 items-center cursor-pointer hover:bg-gray-50 -mx-2 px-2 py-2 rounded"
+                onClick={() => navigate('/vendors?filter=updated')}
+              >
+                <span className="text-sm whitespace-nowrap text-blue-600 hover:text-blue-800 font-medium">Updated</span>
+                <div className="text-sm font-medium text-right">{dashboardData.updatedRegistrations}</div>
+                <div className="h-4 bg-blue-500 rounded-sm" style={{width: getBarWidth(dashboardData.updatedRegistrations)}}></div>
+                <ChevronRightIcon className="h-4 w-4 text-gray-400" />
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
       {/* Events Section */}
-      <section className="bg-white rounded-lg shadow-sm p-6">
-        <div className="border-b border-gray-200 mb-6">
-          <nav className="flex space-x-8">
-            <button className={`py-4 px-1 text-sm font-medium border-b-2 ${activeTab === 'upcoming' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`} onClick={() => setActiveTab('upcoming')}>
-              Upcoming Events ({upcomingEvents.length})
-            </button>
-            <button className={`py-4 px-1 text-sm font-medium border-b-2 ${activeTab === 'past' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`} onClick={() => setActiveTab('past')}>
-              Past Events ({pastEvents.length})
-            </button>
-          </nav>
+      <section className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+        <div className="border-b border-gray-200 px-6 pb-0">
+          <div className="flex justify-between items-center py-4">
+            <nav className="flex space-x-8">
+              <button className={`py-4 px-1 text-lg font-semibold border-b-2 ${activeTab === 'upcoming' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-900 hover:text-blue-600 hover:border-gray-300'}`} onClick={() => setActiveTab('upcoming')}>
+                Upcoming Events ({upcomingEvents.length})
+              </button>
+              <button className={`py-4 px-1 text-lg font-semibold border-b-2 ${activeTab === 'past' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-900 hover:text-blue-600 hover:border-gray-300'}`} onClick={() => setActiveTab('past')}>
+                Past Events ({pastEvents.length})
+              </button>
+            </nav>
+            <div className="flex items-center">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <SearchIcon className="h-5 w-5 text-gray-400" />
+                </div>
+                <input 
+                  type="text" 
+                  className="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+                  placeholder="Search events..." 
+                />
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
           {activeTab === 'upcoming' ? upcomingEvents.length > 0 ? <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
@@ -419,8 +450,8 @@ export function Dashboard() {
                 they'll appear here for your reference.
               </p>
             </div>}
-        </div>
       </section>
+      </div>
     </main>;
 }
 // UsersIcon component for the dashboard

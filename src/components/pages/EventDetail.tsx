@@ -195,7 +195,8 @@ export function EventDetail() {
     navigator.clipboard.writeText(portalUrl);
     alert(`Portal link copied: ${portalUrl}`);
   };
-  return <main className="flex-1 container mx-auto px-4 py-8 max-w-6xl">
+  return <main className="flex-1 px-6 py-8">
+      <div className="container mx-auto max-w-6xl">
       {/* Back button */}
       <div className="mb-6">
         <Link to="/dashboard" className="flex items-center text-blue-600 hover:text-blue-800">
@@ -340,8 +341,9 @@ export function EventDetail() {
                 </div>
               </div>
               {/* Vendors Table */}
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
+              <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -412,13 +414,14 @@ export function EventDetail() {
                         </td>
                       </tr>)}
                   </tbody>
-                </table>
+                  </table>
+                </div>
+                {filteredVendors.length === 0 && <div className="text-center py-8">
+                    <p className="text-gray-500">
+                      No vendors match your search criteria.
+                    </p>
+                  </div>}
               </div>
-              {filteredVendors.length === 0 && <div className="text-center py-8">
-                  <p className="text-gray-500">
-                    No vendors match your search criteria.
-                  </p>
-                </div>}
             </>}
           {activeTab === 'overview' && <div>
               <h2 className="text-xl font-semibold text-gray-900 mb-6">
@@ -616,6 +619,7 @@ export function EventDetail() {
               </div>
             </div>}
         </div>
+      </div>
       </div>
     </main>;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SearchIcon, FilterIcon, CheckCircleIcon, AlertTriangleIcon, XCircleIcon, PlusIcon, ChevronDownIcon, DownloadIcon, BookmarkIcon, MoreHorizontalIcon } from 'lucide-react';
+import { SearchIcon, FilterIcon, CheckCircleIcon, AlertTriangleIcon, XCircleIcon, PlusIcon, ChevronDownIcon, DownloadIcon, BookmarkIcon, MoreHorizontalIcon, UserPlusIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
 // Sample vendor data for demonstration
 const sampleVendors = [{
@@ -97,7 +97,8 @@ export function Vendors() {
         </span>;
     }
   };
-  return <main className="flex-1 container mx-auto px-4 py-8 max-w-6xl">
+  return <main className="flex-1 px-6 py-8">
+      <div className="container mx-auto max-w-6xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Vendors</h1>
@@ -105,22 +106,15 @@ export function Vendors() {
             Manage vendors and monitor compliance status
           </p>
         </div>
-        <Button variant="primary" className="mt-4 md:mt-0 flex items-center">
-          <PlusIcon className="h-4 w-4 mr-2" />
+        <Button variant="outline" className="mt-4 md:mt-0 flex items-center">
+          <UserPlusIcon className="h-4 w-4 mr-2" />
           Add Vendor
         </Button>
       </div>
-      <div className="bg-white rounded-lg shadow-md">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
         <div className="p-6 border-b border-gray-200">
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Search */}
-            <div className="relative flex-grow">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon className="h-5 w-5 text-gray-400" />
-              </div>
-              <input type="text" placeholder="Search vendors by name or email..." className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-            </div>
-            {/* Filters */}
+            {/* Filters - Left Side */}
             <div className="flex flex-wrap gap-2">
               <div className="relative">
                 <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
@@ -145,8 +139,8 @@ export function Vendors() {
                 </div>
               </div>
               <div className="relative">
-                <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                  <option value="all">All Vendor Types</option>
+                <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 w-32">
+                  <option value="all">All Types</option>
                   {vendorTypes.map((type, index) => <option key={index} value={type}>
                       {type}
                     </option>)}
@@ -155,10 +149,13 @@ export function Vendors() {
                   <ChevronDownIcon className="h-4 w-4 text-gray-400" />
                 </div>
               </div>
-              <button className="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <FilterIcon className="h-4 w-4 mr-2" />
-                More Filters
-              </button>
+            </div>
+            {/* Search - Right Side */}
+            <div className="relative flex-grow">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <SearchIcon className="h-5 w-5 text-gray-400" />
+              </div>
+              <input type="text" placeholder="Search vendors by name or email..." className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
             </div>
           </div>
         </div>
@@ -258,6 +255,7 @@ export function Vendors() {
             </nav>
           </div>
         </div>
+      </div>
       </div>
     </main>;
 }
